@@ -34,9 +34,9 @@ You can download the required CSS and JS files from the `dist` directory in the 
 
 OR from below direct links
 
-**CSS file link** - [popover.min.css](https://raw.githubusercontent.com/{{repo}}/master/dist/popover.min.css)
+**CSS file link** - [popover.min.css](https://raw.githubusercontent.com/{{repo}}/main/dist/popover.min.css)
 
-**JS file link** - [popover.min.js](https://raw.githubusercontent.com/{{repo}}/master/dist/popover.min.js)
+**JS file link** - [popover.min.js](https://raw.githubusercontent.com/{{repo}}/main/dist/popover.min.js)
 
 ## Import files
 
