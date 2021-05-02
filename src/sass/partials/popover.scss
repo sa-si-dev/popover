@@ -1,0 +1,85 @@
+.pop-comp-wrapper {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  color: $fontColor;
+  background-color: $primaryBg;
+  box-shadow: $boxShadow1;
+  text-align: left;
+  flex-wrap: wrap;
+  z-index: 1;
+}
+
+.pop-comp-arrow {
+  position: absolute;
+  z-index: 1;
+  width: $arrowSize;
+  height: $arrowSize;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: $arrowHalfSize;
+    left: $arrowHalfSize;
+    width: $arrowSize;
+    height: $arrowSize;
+    background-color: $primaryBg;
+    box-shadow: $boxShadow1;
+    @include prefix(transform-origin, left top);
+    @include prefix(transform, rotate(45deg));
+  }
+}
+
+.pop-comp-content {
+  position: relative;
+  z-index: 2;
+}
+
+.pop-comp-wrapper {
+  &.position-bottom {
+    .pop-comp-arrow {
+      margin-left: -$arrowHalfSize;
+      left: 0;
+      border-bottom-color: $primaryBg;
+      top: -#{$arrowSize - 1px};
+
+      &::before {
+        box-shadow: $boxShadow2;
+      }
+    }
+  }
+
+  &.position-top {
+    .pop-comp-arrow {
+      margin-left: -$arrowHalfSize;
+      left: 0;
+      border-top-color: $primaryBg;
+      bottom: -#{$arrowSize - 1px};
+    }
+  }
+
+  &.position-right {
+    .pop-comp-arrow {
+      margin-top: -$arrowHalfSize;
+      top: 0;
+      border-right-color: $primaryBg;
+      left: -#{$arrowSize - 1px};
+    }
+  }
+
+  &.position-left {
+    .pop-comp-arrow {
+      margin-top: -$arrowHalfSize;
+      top: 0;
+      border-left-color: $primaryBg;
+      right: -#{$arrowSize - 1px};
+    }
+  }
+}
+
+.pop-comp-disable-events {
+  pointer-events: none;
+}

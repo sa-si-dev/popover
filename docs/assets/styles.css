@@ -1,0 +1,141 @@
+*:focus {
+  outline: none;
+}
+
+body {
+  font-family: 'Roboto' sans-serif;
+  font-size: 16px;
+}
+
+/* theme customization - start */
+.sidebar {
+  width: 200px;
+}
+
+.content {
+  left: 200px;
+}
+
+section.cover .cover-main > p:last-child a:last-child:hover {
+  color: #fff;
+}
+
+.sidebar > h1 {
+  font-weight: bold;
+  color: var(--theme-color, #42b983);
+}
+
+.sidebar ul li a {
+  font-size: 16px;
+  padding: 5px 0;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: none;
+  color: var(--theme-color, #42b983);
+}
+
+section.cover {
+  background: linear-gradient(to left bottom, hsl(71, 100%, 85%) 0%, hsl(23deg 80% 80%) 100%) !important;
+}
+
+.markdown-section td,
+.markdown-section th {
+  padding: 10px 15px;
+  line-height: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    left: 20px;
+    bottom: 20px;
+    padding: 0;
+    background-color: var(--theme-color, #42b983);
+    border-radius: 50%;
+  }
+
+  .sidebar-toggle span {
+    background-color: #fff;
+  }
+
+  .sidebar-toggle span:last-child {
+    margin-bottom: 0;
+  }
+
+  body.close .sidebar-toggle {
+    display: none;
+  }
+
+  .markdown-section {
+    padding-bottom: 100px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .markdown-section {
+    max-width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+/* theme customization - end */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--theme-color, #42b983);
+  box-sizing: border-box;
+  color: var(--theme-color, #42b983);
+  display: inline-flex;
+  font-size: 1.05rem;
+  letter-spacing: 0.1rem;
+  margin: 0.5rem 1rem;
+  padding: 0.75em 2rem;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  background-color: var(--theme-color, #42b983);
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn-v-long {
+  width: 200px;
+}
+
+.btn-h-long {
+  height: 200px;
+}
+
+.get-started-example {
+  display: flex;
+  justify-content: center;
+  margin: 80px 150px;
+  flex-wrap: wrap;
+}
+
+.sample-popover-target .pop-comp-content {
+  padding: 10px;
+  min-height: 80px;
+}
+
+.sample-popover-position-container {
+  text-align: center;
+}
+
+.sample-popover-position-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.sample-popover-position-container label {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
