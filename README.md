@@ -4,6 +4,8 @@
 
 [Documentation](https://sa-si-dev.github.io/popover)
 
+[Changelog](https://github.com/sa-si-dev/popover/releases)
+
 ## Commands
 
 | Command | Description |

@@ -15,7 +15,9 @@
 | hideOnOuterClick | Boolean | true | Hide on clicking outside of popover element |
 | showOnHover | Boolean | false | Show popover element on hovering trigger element |
 | hideArrowIcon | Boolean | false | Hide arrow icon in the popover |
+| beforeShow | Function | | Callback function for before showing popover |
 | afterShow | Function | | Callback function for after showing popover |
+| beforeHide | Function | | Callback function for before hiding popover |
 | afterHide | Function | | Callback function for after hiding popover |
 
 
