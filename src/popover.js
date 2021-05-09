@@ -1,7 +1,7 @@
 import { Utils, DomUtils } from './utils';
 import { Popper } from './popper';
 
-const PopoverComponentVersion = 'v1.0.0';
+const PopoverComponentVersion = 'v1.0.1';
 
 const keyDownMethodMapping = {
   27: 'onEscPress',
@@ -22,7 +22,9 @@ export class PopoverComponent {
    * @property {boolean} [hideOnOuterClick=true] - Hide on clicking outside of popover element
    * @property {boolean} [showOnHover=false] - Show popover element on hovering trigger element
    * @property {boolean} [hideArrowIcon=false] - Hide arrow icon in the popover
+   * @property {function} [beforeShow] - Callback function for before showing popover
    * @property {function} [afterShow] - Callback function for after showing popover
+   * @property {function} [beforeHide] - Callback function for before hiding popover
    * @property {function} [afterHide] - Callback function for after hiding popover
    */
   constructor(options) {
@@ -160,7 +162,9 @@ export class PopoverComponent {
     this.hideOnOuterClick = convertToBoolean(options.hideOnOuterClick);
     this.showOnHover = convertToBoolean(options.showOnHover);
     this.hideArrowIcon = convertToBoolean(options.hideArrowIcon);
+    this.beforeShowCallback = options.beforeShow;
     this.afterShowCallback = options.afterShow;
+    this.beforeHideCallback = options.beforeHide;
     this.afterHideCallback = options.afterHide;
 
     this.events = {};
@@ -214,7 +218,6 @@ export class PopoverComponent {
 
   setElementProps() {
     let $ele = this.$ele;
-    this.$popover.popComp = this;
     $ele.popComp = this;
     $ele.show = PopoverComponent.showMethod;
     $ele.hide = PopoverComponent.hideMethod;
@@ -223,6 +226,19 @@ export class PopoverComponent {
     DomUtils.addClass(this.$popover, 'pop-comp-wrapper');
   }
   /** set methods - end */
+
+  /** get methods - start */
+  getOtherTriggerPopComp() {
+    let popComp = this.$popover.popComp;
+    let otherPopComp;
+
+    if (popComp && popComp.$ele !== this.$ele) {
+      otherPopComp = popComp;
+    }
+
+    return otherPopComp;
+  }
+  /** get methods - end */
 
   initPopper() {
     let options = {
@@ -244,13 +260,32 @@ export class PopoverComponent {
     this.popper = new Popper(options);
   }
 
+  beforeShow() {
+    if (typeof this.beforeShowCallback === 'function') {
+      this.beforeShowCallback(this);
+    }
+  }
+
+  beforeHide() {
+    if (typeof this.beforeHideCallback === 'function') {
+      this.beforeHideCallback(this);
+    }
+  }
+
   show() {
     if (this.isShown()) {
       return;
     }
 
+    if (this.isShownForOtherTrigger()) {
+      this.showAfterOtherHide();
+      return;
+    }
+
     DomUtils.addClass(this.$popover, 'pop-comp-disable-events');
 
+    this.$popover.popComp = this;
+    this.beforeShow();
     this.popper.show(true);
 
     DomUtils.addClass(this.$ele, 'pop-comp-active');
@@ -261,6 +296,7 @@ export class PopoverComponent {
       return;
     }
 
+    this.beforeHide();
     this.popper.hide();
   }
 
@@ -278,6 +314,27 @@ export class PopoverComponent {
 
   isShown() {
     return DomUtils.hasClass(this.$ele, 'pop-comp-active');
+  }
+
+  isShownForOtherTrigger() {
+    let otherPopComp = this.getOtherTriggerPopComp();
+
+    return otherPopComp ? otherPopComp.isShown() : false;
+  }
+
+  /** showing popover after same popover with different trigger element hide */
+  showAfterOtherHide() {
+    let otherPopComp = this.getOtherTriggerPopComp();
+
+    if (!otherPopComp) {
+      return;
+    }
+
+    let otherHideTime = otherPopComp.exitDelay + otherPopComp.hideDuration + 100;
+
+    setTimeout(() => {
+      this.show();
+    }, otherHideTime);
   }
 
   afterShow() {
