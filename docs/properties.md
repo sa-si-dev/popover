@@ -6,6 +6,7 @@
 | target | string | | CSS selector to get popover element |
 | position | String | auto | Position of popover element (auto, top, bottom, left, right,<br>top left, top right, bottom left, bottom right,<br>left top, left bottom, right top, right bottom) |
 | margin | Number | 8 | Space between popover element and its Trigger element (in pixel) |
+| offset | Number | 5 | Space between popover element and window edge (in pixel) |
 | enterDelay | Number | 0 | Delay time before showing popover element (in milliseconds) |
 | exitDelay | Number | 0 | Delay time before hiding popover element (in milliseconds) |
 | showDuration | Number | 300 | Transition duration for show animation (in milliseconds) |
