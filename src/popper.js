@@ -16,6 +16,7 @@ export class Popper {
    * @property {element} $arrowEle - Arrow icon in the popper
    * @property {string} [position=auto] - Position of popper (top, bottom, left, right, auto)
    * @property {number} [margin=8] - Space between popper and its activator (in pixel)
+   * @property {number} [offset=5] - Space between popper and window edge (in pixel)
    * @property {number} [enterDelay=0] - Delay time before showing popper (in milliseconds)
    * @property {number} [exitDelay=0] - Delay time before hiding popper (in milliseconds)
    * @property {number} [showDuration=300] - Transition duration for show animation (in milliseconds)
@@ -56,6 +57,7 @@ export class Popper {
     this.$triggerEle = options.$triggerEle;
     this.$arrowEle = options.$arrowEle;
     this.margin = parseFloat(options.margin);
+    this.offset = parseFloat(options.offset);
     this.enterDelay = parseFloat(options.enterDelay);
     this.exitDelay = parseFloat(options.exitDelay);
     this.showDuration = parseFloat(options.showDuration);
@@ -80,6 +82,7 @@ export class Popper {
     let defaultOptions = {
       position: 'auto',
       margin: 8,
+      offset: 5,
       enterDelay: 0,
       exitDelay: 0,
       showDuration: 300,
@@ -118,13 +121,20 @@ export class Popper {
     let transitionDistance = this.transitionDistance;
     let fromTop;
     let fromLeft;
-    let scrollTop = window.scrollY;
-    let scrollLeft = window.scrollX;
-    let topEdge = scrollTop - popperEleTop;
+    let hideableParentOffset = DomUtils.getHideableParentOffset(this.$popperEle);
+    let topEdge = hideableParentOffset.y - popperEleTop;
     let bottomEdge = viewportHeight + topEdge;
-    let leftEdge = scrollLeft - popperEleLeft;
+    let leftEdge = hideableParentOffset.x - popperEleLeft;
     let rightEdge = viewportWidth + leftEdge;
     let inversePosition;
+    let viewportOffset = this.offset;
+
+    if (viewportOffset) {
+      topEdge += viewportOffset;
+      bottomEdge -= viewportOffset;
+      leftEdge += viewportOffset;
+      rightEdge -= viewportOffset;
+    }
 
     /** find the position which has more space */
     if (position === 'auto') {

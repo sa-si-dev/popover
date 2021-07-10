@@ -1,7 +1,7 @@
 import { Utils, DomUtils } from './utils';
 import { Popper } from './popper';
 
-const PopoverComponentVersion = 'v1.0.1';
+const PopoverComponentVersion = 'v1.0.2';
 
 const keyDownMethodMapping = {
   27: 'onEscPress',
@@ -13,6 +13,7 @@ export class PopoverComponent {
    * @property {string} target - CSS selector to get popover element
    * @property {string} [position=auto] - Position of popover element (auto, top, bottom, left, right, top left, top right, bottom left, bottom right, left top, left bottom, right top, right bottom)
    * @property {number} [margin=8] - Space between popover element and its Trigger element (in pixel)
+   * @property {number} [offset=5] - Space between popover element and window edge (in pixel)
    * @property {number} [enterDelay=0] - Delay time before showing popover element (in milliseconds)
    * @property {number} [exitDelay=0] - Delay time before hiding popover element (in milliseconds)
    * @property {number} [showDuration=300] - Transition duration for show animation (in milliseconds)
@@ -153,6 +154,7 @@ export class PopoverComponent {
     this.target = options.target;
     this.position = options.position;
     this.margin = parseFloat(options.margin);
+    this.offset = parseFloat(options.offset);
     this.enterDelay = parseFloat(options.enterDelay);
     this.exitDelay = parseFloat(options.exitDelay);
     this.showDuration = parseFloat(options.showDuration);
@@ -176,6 +178,7 @@ export class PopoverComponent {
     let defaultOptions = {
       position: 'auto',
       margin: 8,
+      offset: 5,
       enterDelay: 0,
       exitDelay: 0,
       showDuration: 300,
@@ -196,6 +199,7 @@ export class PopoverComponent {
       'data-popover-target': 'target',
       'data-popover-position': 'position',
       'data-popover-margin': 'margin',
+      'data-popover-offset': 'offset',
       'data-popover-enter-delay': 'enterDelay',
       'data-popover-exit-delay': 'exitDelay',
       'data-popover-show-duration': 'showDuration',
@@ -247,6 +251,7 @@ export class PopoverComponent {
       $arrowEle: this.$arrowEle,
       position: this.position,
       margin: this.margin,
+      offset: this.offset,
       enterDelay: this.enterDelay,
       exitDelay: this.exitDelay,
       showDuration: this.showDuration,
