@@ -1,4 +1,4 @@
-# Popover <small>1.0</small>
+# Popover Plugin
 
 > A javascript plugin for popover
 
@@ -6,10 +6,16 @@
 
 [Changelog](https://github.com/sa-si-dev/popover/releases)
 
-## Commands
+## Install
 
-| Command | Description |
-|---------|-------------|
-| npm run start | Builds dist versions of the plugin on file change |
-| npm run build | Builds dist versions of the plugin |
-| npm run docs | Starts a local documentation server |
+```shell
+npm install --save popover-plugin
+```
+
+## Import files
+
+```html
+<link rel="stylesheet" href="node_modules/popover-plugin/dist/popover.min.css">
+
+<script src="node_modules/popover-plugin/dist/popover.min.js"></script>
+```

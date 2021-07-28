@@ -48,6 +48,22 @@ Import downloaded files (`popover.min.css` and `popover.min.js`) into your proje
 <script src="path/to/popover.min.js">
 ```
 
+## Install from NPM
+
+We could install this plugin from NPM and use it
+
+```shell
+npm install --save popover-plugin
+```
+
+## Import files from node_modules
+
+```html
+<link rel="stylesheet" href="node_modules/popover-plugin/dist/popover.min.css">
+
+<script src="node_modules/popover-plugin/dist/popover.min.js"></script>
+```
+
 ## Initialize plugin
 
 ```html

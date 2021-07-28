@@ -1,13 +1,14 @@
 {
-  "name": "popover",
-  "version": "1.0.0",
+  "name": "popover-plugin",
+  "version": "1.0.3",
   "description": "A javascript plugin for popover",
   "scripts": {
     "start": "webpack --mode development --watch",
     "build": "webpack --mode production",
     "docs": "docsify serve docs"
   },
-  "author": "",
+  "author": "Sa Si Dev",
+  "keywords": ["javascript", "plugin", "popover"],
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.0",
