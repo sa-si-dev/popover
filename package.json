@@ -1,6 +1,6 @@
 {
   "name": "popover-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A javascript plugin for popover",
   "scripts": {
     "start": "webpack --mode development --watch",
@@ -8,7 +8,11 @@
     "docs": "docsify serve docs"
   },
   "author": "Sa Si Dev",
-  "keywords": ["javascript", "plugin", "popover"],
+  "keywords": [
+    "javascript",
+    "plugin",
+    "popover"
+  ],
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.0",
@@ -18,6 +22,7 @@
     "filemanager-webpack-plugin": "^3.1.1",
     "mini-css-extract-plugin": "^0.11.3",
     "node-sass": "^4.14.1",
+    "popper-plugin": "1.0.x",
     "sass-loader": "^10.1.1",
     "webpack": "^5.36.2",
     "webpack-cli": "^4.6.0"

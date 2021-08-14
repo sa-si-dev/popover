@@ -18,4 +18,26 @@ export class Utils {
 
     return array.filter((d) => !!d);
   }
+
+  static throttle(method, delay) {
+    let prev = 0;
+    let timeout;
+
+    return (...args) => {
+      let now = new Date().getTime();
+      let remaining = delay - (now - prev);
+
+      clearTimeout(timeout);
+
+      if (remaining <= 0) {
+        prev = now;
+
+        method(...args);
+      } else {
+        timeout = setTimeout(() => {
+          method(...args);
+        }, remaining);
+      }
+    };
+  }
 }

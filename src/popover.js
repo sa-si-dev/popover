@@ -1,7 +1,4 @@
 import { Utils, DomUtils } from './utils';
-import { Popper } from './popper';
-
-const PopoverComponentVersion = 'v1.0.2';
 
 const keyDownMethodMapping = {
   27: 'onEscPress',
@@ -23,6 +20,10 @@ export class PopoverComponent {
    * @property {boolean} [hideOnOuterClick=true] - Hide on clicking outside of popover element
    * @property {boolean} [showOnHover=false] - Show popover element on hovering trigger element
    * @property {boolean} [hideArrowIcon=false] - Hide arrow icon in the popover
+   * @property {boolean} [disableManualAction=false] - By default popover would be showed on click/hover trigger element.
+   * Set true to disable it and handle show/hide programmatically.
+   * @property {boolean} [disableUpdatePosition=false] - By default popover position would be updated on scrolling the parent element.
+   * Set true to disable it.
    * @property {function} [beforeShow] - Callback function for before showing popover
    * @property {function} [afterShow] - Callback function for after showing popover
    * @property {function} [beforeHide] - Callback function for before hiding popover
@@ -54,12 +55,15 @@ export class PopoverComponent {
     let events = [
       { $ele: document, event: 'click', method: 'onDocumentClick' },
       { $ele: document, event: 'keydown', method: 'onDocumentKeyDown' },
-      { $ele: this.$ele, event: 'click', method: 'onTriggerEleClick' },
     ];
 
-    if (this.showOnHover) {
-      events.push({ $ele: this.$ele, event: 'mouseenter', method: 'onTriggerEleMouseEnter' });
-      events.push({ $ele: this.$ele, event: 'mouseleave', method: 'onTriggerEleMouseLeave' });
+    if (!this.disableManualAction) {
+      events.push({ $ele: this.$ele, event: 'click', method: 'onTriggerEleClick' });
+
+      if (this.showOnHover) {
+        events.push({ $ele: this.$ele, event: 'mouseenter', method: 'onTriggerEleMouseEnter' });
+        events.push({ $ele: this.$ele, event: 'mouseleave', method: 'onTriggerEleMouseLeave' });
+      }
     }
 
     return events;
@@ -69,7 +73,12 @@ export class PopoverComponent {
     let events = this.getEvents();
 
     events.forEach((d) => {
-      this.addOrRemoveEvent(d.$ele, d.event, d.method, action);
+      this.addOrRemoveEvent({
+        action,
+        $ele: d.$ele,
+        events: d.event,
+        method: d.method,
+      });
     });
   }
 
@@ -79,9 +88,10 @@ export class PopoverComponent {
 
   removeEvents() {
     this.addOrRemoveEvents('remove');
+    this.removeScrollEventListeners();
   }
 
-  addOrRemoveEvent($ele, events, method, action) {
+  addOrRemoveEvent({ action, $ele, events, method, throttle }) {
     if (!$ele) {
       return;
     }
@@ -94,6 +104,11 @@ export class PopoverComponent {
 
       if (!callback) {
         callback = this[method].bind(this);
+
+        if (throttle) {
+          callback = Utils.throttle(callback, throttle);
+        }
+
         this.events[eventsKey] = callback;
       }
 
@@ -103,6 +118,37 @@ export class PopoverComponent {
         DomUtils.removeEvent($ele, event, callback);
       }
     });
+  }
+
+  addScrollEventListeners() {
+    this.$scrollableElems = DomUtils.getScrollableParents(this.$ele);
+
+    this.addOrRemoveEvent({
+      action: 'add',
+      $ele: this.$scrollableElems,
+      events: 'scroll',
+      method: 'onAnyParentScroll',
+      throttle: 100,
+    });
+  }
+
+  removeScrollEventListeners() {
+    if (!this.$scrollableElems) {
+      return;
+    }
+
+    this.addOrRemoveEvent({
+      action: 'remove',
+      $ele: this.$scrollableElems,
+      events: 'scroll',
+      method: 'onAnyParentScroll',
+    });
+
+    this.$scrollableElems = null;
+  }
+
+  onAnyParentScroll() {
+    this.popper.updatePosition();
   }
 
   onDocumentClick(e) {
@@ -164,6 +210,8 @@ export class PopoverComponent {
     this.hideOnOuterClick = convertToBoolean(options.hideOnOuterClick);
     this.showOnHover = convertToBoolean(options.showOnHover);
     this.hideArrowIcon = convertToBoolean(options.hideArrowIcon);
+    this.disableManualAction = convertToBoolean(options.disableManualAction);
+    this.disableUpdatePosition = convertToBoolean(options.disableUpdatePosition);
     this.beforeShowCallback = options.beforeShow;
     this.afterShowCallback = options.afterShow;
     this.beforeHideCallback = options.beforeHide;
@@ -188,6 +236,8 @@ export class PopoverComponent {
       hideOnOuterClick: true,
       showOnHover: false,
       hideArrowIcon: false,
+      disableManualAction: false,
+      disableUpdatePosition: false,
     };
 
     return Object.assign(defaultOptions, options);
@@ -209,6 +259,8 @@ export class PopoverComponent {
       'data-popover-hide-on-outer-click': 'hideOnOuterClick',
       'data-popover-show-on-hover': 'showOnHover',
       'data-popover-hide-arrow-icon': 'hideArrowIcon',
+      'data-popover-disable-manual-action': 'disableManualAction',
+      'data-popover-disable-update-position': 'disableUpdatePosition',
     };
 
     for (let k in mapping) {
@@ -262,7 +314,7 @@ export class PopoverComponent {
       afterHide: this.afterHide.bind(this),
     };
 
-    this.popper = new Popper(options);
+    this.popper = new PopperComponent(options);
   }
 
   beforeShow() {
@@ -291,7 +343,7 @@ export class PopoverComponent {
 
     this.$popover.popComp = this;
     this.beforeShow();
-    this.popper.show(true);
+    this.popper.show({ resetPosition: true });
 
     DomUtils.addClass(this.$ele, 'pop-comp-active');
   }
@@ -303,6 +355,7 @@ export class PopoverComponent {
 
     this.beforeHide();
     this.popper.hide();
+    this.removeScrollEventListeners();
   }
 
   toggle(show) {
@@ -344,6 +397,10 @@ export class PopoverComponent {
 
   afterShow() {
     DomUtils.removeClass(this.$popover, 'pop-comp-disable-events');
+
+    if (!this.disableUpdatePosition) {
+      this.addScrollEventListeners();
+    }
 
     if (typeof this.afterShowCallback === 'function') {
       this.afterShowCallback(this);
@@ -424,10 +481,6 @@ export class PopoverComponent {
     if (popComp) {
       popComp.destory();
     }
-  }
-
-  static version() {
-    return PopoverComponentVersion;
   }
 
   static showMethod() {

@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 
-const banner = `Popover v1.0.3
+const banner = `Popover v1.0.4
 https://sa-si-dev.github.io/popover
 Licensed under MIT (https://github.com/sa-si-dev/popover/blob/master/LICENSE)`;
 
@@ -14,12 +14,13 @@ module.exports = (env, options) => {
 
     entry: {
       styles: './src/styles.js',
-      popover: './src/popover.js',
+      popover: ['./node_modules/popper-plugin/dist/popper.min.js', './src/popover.js'],
     },
 
     output: {
       filename: '[name].min.js',
       path: path.resolve(__dirname, 'dist'),
+      chunkFormat: 'array-push',
     },
 
     plugins: [
