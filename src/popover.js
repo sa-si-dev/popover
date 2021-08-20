@@ -396,10 +396,14 @@ export class PopoverComponent {
   }
 
   afterShow() {
-    /** using setTimeout to avoid an issue in firefox. show/hide event is calling continuously when showOnHover is enabled */
-    setTimeout(() => {
+    if (this.showOnHover) {
+      /** using setTimeout to avoid an issue in firefox. show/hide event is calling continuously when showOnHover is enabled */
+      setTimeout(() => {
+        DomUtils.removeClass(this.$popover, 'pop-comp-disable-events');
+      }, 2000);
+    } else {
       DomUtils.removeClass(this.$popover, 'pop-comp-disable-events');
-    }, 2000);
+    }
 
     if (!this.disableUpdatePosition) {
       this.addScrollEventListeners();
