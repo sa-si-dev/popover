@@ -1,6 +1,6 @@
 {
   "name": "popover-plugin",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A javascript plugin for popover",
   "scripts": {
     "start": "webpack --mode development --watch",
