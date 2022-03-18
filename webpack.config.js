@@ -3,8 +3,9 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
+const { version } = require('./package.json');
 
-const banner = `Popover v1.0.6
+const banner = `Popover v${version}
 https://sa-si-dev.github.io/popover
 Licensed under MIT (https://github.com/sa-si-dev/popover/blob/master/LICENSE)`;
 

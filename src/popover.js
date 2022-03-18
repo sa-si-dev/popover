@@ -277,6 +277,7 @@ export class PopoverComponent {
     $ele.popComp = this;
     $ele.show = PopoverComponent.showMethod;
     $ele.hide = PopoverComponent.hideMethod;
+    $ele.updatePosition = PopoverComponent.updatePositionMethod;
 
     DomUtils.addClass(this.$ele, 'pop-comp-ele');
     DomUtils.addClass(this.$popover, 'pop-comp-wrapper');
@@ -491,11 +492,15 @@ export class PopoverComponent {
   }
 
   static showMethod() {
-    return this.popComp.show();
+    this.popComp.show();
   }
 
   static hideMethod() {
-    return this.popComp.hide();
+    this.popComp.hide();
+  }
+
+  static updatePositionMethod() {
+    this.popComp.popper.updatePosition();
   }
   /** static methods - end */
 }
