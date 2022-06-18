@@ -438,7 +438,7 @@ export class PopoverComponent {
     this.$arrowEle = $arrowEle;
   }
 
-  destory() {
+  destroy() {
     this.removeEvents();
   }
 
@@ -472,14 +472,14 @@ export class PopoverComponent {
     let instances = [];
     $eleArray.forEach(($ele) => {
       options.ele = $ele;
-      PopoverComponent.destory($ele);
+      PopoverComponent.destroy($ele);
       instances.push(new PopoverComponent(options));
     });
 
     return singleEle ? instances[0] : instances;
   }
 
-  static destory($ele) {
+  static destroy($ele) {
     if (!$ele) {
       return;
     }
@@ -487,7 +487,7 @@ export class PopoverComponent {
     let popComp = $ele.popComp;
 
     if (popComp) {
-      popComp.destory();
+      popComp.destroy();
     }
   }
 

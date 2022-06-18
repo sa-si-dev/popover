@@ -1,6 +1,6 @@
 {
   "name": "popover-plugin",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A javascript plugin for popover",
   "scripts": {
     "start": "webpack --mode development --watch",
@@ -15,16 +15,16 @@
   ],
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.14.0",
-    "@babel/preset-env": "^7.14.0",
-    "babel-loader": "^8.2.2",
-    "css-loader": "^4.2.2",
-    "filemanager-webpack-plugin": "^3.1.1",
-    "mini-css-extract-plugin": "^0.11.3",
-    "node-sass": "^4.14.1",
+    "@babel/core": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "filemanager-webpack-plugin": "^7.0.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "popper-plugin": "1.0.x",
-    "sass-loader": "^10.1.1",
-    "webpack": "^5.36.2",
-    "webpack-cli": "^4.6.0"
+    "sass": "^1.52.3",
+    "sass-loader": "^13.0.0",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
   }
 }

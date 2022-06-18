@@ -23,3 +23,11 @@ To update position of popover programmatically
 ```js
 document.querySelector('#sample-popover-ele').updatePosition();
 ```
+
+### destroy()
+
+To destroy the popover instance
+
+```js
+document.querySelector('#sample-popover-ele').destroy();
+```
