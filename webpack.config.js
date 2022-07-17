@@ -10,6 +10,12 @@ https://sa-si-dev.github.io/popover
 Licensed under MIT (https://github.com/sa-si-dev/popover/blob/master/LICENSE)`;
 
 module.exports = (env, options) => {
+  const onStartEventOptions = {};
+
+  if (options.mode === 'production') {
+    onStartEventOptions.delete = ['dist'];
+  }
+
   const config = {
     target: 'es5',
 
@@ -33,9 +39,7 @@ module.exports = (env, options) => {
 
       new FileManagerPlugin({
         events: {
-          onStart: {
-            delete: ['dist'],
-          },
+          onStart: onStartEventOptions,
           onEnd: {
             delete: ['dist/styles.min.js'],
             copy: [{ source: 'dist', destination: 'docs/assets' }],

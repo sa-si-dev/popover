@@ -12,6 +12,7 @@
 | showDuration | Number | 300 | Transition duration for show animation (in milliseconds) |
 | hideDuration | Number | 200 | Transition duration for hide animation (in milliseconds) |
 | transitionDistance | Number | 10 | Distance to translate on show/hide animation (in pixel) |
+| updatePositionThrottle | Number | 100 | Throttle time for updating popover position on scroll event (in milliseconds) |
 | zIndex | Number | 1 | CSS z-index value for popover element |
 | hideOnOuterClick | Boolean | true | Hide on clicking outside of popover element |
 | showOnHover | Boolean | false | Show popover element on hovering trigger element |

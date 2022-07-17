@@ -40,7 +40,7 @@
 
 .pop-comp-wrapper {
   &.position-bottom {
-    .pop-comp-arrow {
+    & > .pop-comp-arrow {
       margin-left: -$arrowHalfSize;
       left: 0;
       top: -#{$arrowSize - 1px};
@@ -52,7 +52,7 @@
   }
 
   &.position-top {
-    .pop-comp-arrow {
+    & > .pop-comp-arrow {
       margin-left: -$arrowHalfSize;
       left: 0;
       bottom: -#{$arrowSize - 1px};
@@ -60,7 +60,7 @@
   }
 
   &.position-right {
-    .pop-comp-arrow {
+    & > .pop-comp-arrow {
       margin-top: -$arrowHalfSize;
       top: 0;
       left: -#{$arrowSize - 1px};
@@ -68,7 +68,7 @@
   }
 
   &.position-left {
-    .pop-comp-arrow {
+    & > .pop-comp-arrow {
       margin-top: -$arrowHalfSize;
       top: 0;
       right: -#{$arrowSize - 1px};

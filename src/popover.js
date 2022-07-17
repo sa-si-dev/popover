@@ -4,6 +4,27 @@ const keyDownMethodMapping = {
   27: 'onEscPress',
 };
 
+const dataProps = [
+  'target',
+  'position',
+  'margin',
+  'offset',
+  'enterDelay',
+  'exitDelay',
+  'showDuration',
+  'hideDuration',
+  'transitionDistance',
+  'updatePositionThrottle',
+  'zIndex',
+  'hideOnOuterClick',
+  'showOnHover',
+  'hideArrowIcon',
+  'disableManualAction',
+  'disableUpdatePosition',
+];
+
+let attrPropsMapping;
+
 export class PopoverComponent {
   /**
    * @property {(element|string)} ele - Trigger element to toggle popover element
@@ -16,6 +37,7 @@ export class PopoverComponent {
    * @property {number} [showDuration=300] - Transition duration for show animation (in milliseconds)
    * @property {number} [hideDuration=200] - Transition duration for hide animation (in milliseconds)
    * @property {number} [transitionDistance=10] - Distance to translate on show/hide animation (in pixel)
+   * @property {number} [updatePositionThrottle=100] - Throttle time for updating popover position on scroll event (in milliseconds)
    * @property {number} [zIndex=1] - CSS z-index value for popover element
    * @property {boolean} [hideOnOuterClick=true] - Hide on clicking outside of popover element
    * @property {boolean} [showOnHover=false] - Show popover element on hovering trigger element
@@ -128,7 +150,7 @@ export class PopoverComponent {
       $ele: this.$scrollableElems,
       events: 'scroll',
       method: 'onAnyParentScroll',
-      throttle: 100,
+      throttle: this.updatePositionThrottle,
     });
   }
 
@@ -206,6 +228,7 @@ export class PopoverComponent {
     this.showDuration = parseFloat(options.showDuration);
     this.hideDuration = parseFloat(options.hideDuration);
     this.transitionDistance = parseFloat(options.transitionDistance);
+    this.updatePositionThrottle = parseFloat(options.updatePositionThrottle);
     this.zIndex = parseFloat(options.zIndex);
     this.hideOnOuterClick = convertToBoolean(options.hideOnOuterClick);
     this.showOnHover = convertToBoolean(options.showOnHover);
@@ -232,6 +255,7 @@ export class PopoverComponent {
       showDuration: 300,
       hideDuration: 200,
       transitionDistance: 10,
+      updatePositionThrottle: 100,
       zIndex: 1,
       hideOnOuterClick: true,
       showOnHover: false,
@@ -245,29 +269,12 @@ export class PopoverComponent {
 
   setPropsFromElementAttr(options) {
     let $ele = options.ele;
-    let mapping = {
-      'data-popover-target': 'target',
-      'data-popover-position': 'position',
-      'data-popover-margin': 'margin',
-      'data-popover-offset': 'offset',
-      'data-popover-enter-delay': 'enterDelay',
-      'data-popover-exit-delay': 'exitDelay',
-      'data-popover-show-duration': 'showDuration',
-      'data-popover-hide-duration': 'hideDuration',
-      'data-popover-transition-distance': 'transitionDistance',
-      'data-popover-z-index': 'zIndex',
-      'data-popover-hide-on-outer-click': 'hideOnOuterClick',
-      'data-popover-show-on-hover': 'showOnHover',
-      'data-popover-hide-arrow-icon': 'hideArrowIcon',
-      'data-popover-disable-manual-action': 'disableManualAction',
-      'data-popover-disable-update-position': 'disableUpdatePosition',
-    };
 
-    for (let k in mapping) {
+    for (let k in attrPropsMapping) {
       let value = $ele.getAttribute(k);
 
       if (value) {
-        options[mapping[k]] = value;
+        options[attrPropsMapping[k]] = value;
       }
     }
   }
@@ -502,7 +509,20 @@ export class PopoverComponent {
   static updatePositionMethod() {
     this.popComp.popper.updatePosition();
   }
+
+  static getAttrProps() {
+    const { convertPropToDataAttr } = DomUtils;
+    const result = {};
+
+    dataProps.forEach((d) => {
+      result[convertPropToDataAttr(d)] = d;
+    });
+
+    return result;
+  }
   /** static methods - end */
 }
+
+attrPropsMapping = PopoverComponent.getAttrProps();
 
 window.PopoverComponent = PopoverComponent;

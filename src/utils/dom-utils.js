@@ -90,7 +90,7 @@ export class DomUtils {
       return [];
     }
 
-    let $scrollableElems = [window];
+    let $scrollableElems = [];
     let $parent = $ele.parentElement;
 
     while ($parent) {
@@ -104,5 +104,13 @@ export class DomUtils {
     }
 
     return $scrollableElems;
+  }
+
+  /**
+   * convert "maxValue" to "data-max-value"
+   * @param {string} prop
+   */
+  static convertPropToDataAttr(prop) {
+    return prop ? `data-popover-${prop}`.replace(/([A-Z])/g, '-$1').toLowerCase() : '';
   }
 }
