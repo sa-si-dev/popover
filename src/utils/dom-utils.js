@@ -90,7 +90,7 @@ export class DomUtils {
       return [];
     }
 
-    let $scrollableElems = [];
+    let $scrollableElems = [window];
     let $parent = $ele.parentElement;
 
     while ($parent) {
