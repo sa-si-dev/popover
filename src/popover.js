@@ -111,6 +111,7 @@ export class PopoverComponent {
   removeEvents() {
     this.addOrRemoveEvents('remove');
     this.removeScrollEventListeners();
+    this.removeResizeEventListeners();
   }
 
   addOrRemoveEvent({ action, $ele, events, method, throttle }) {
@@ -169,7 +170,30 @@ export class PopoverComponent {
     this.$scrollableElems = null;
   }
 
+  addResizeEventListeners() {
+    this.addOrRemoveEvent({
+      action: 'add',
+      $ele: window,
+      events: 'resize',
+      method: 'onResize',
+      throttle: this.updatePositionThrottle,
+    });
+  }
+
+  removeResizeEventListeners() {
+    this.addOrRemoveEvent({
+      action: 'remove',
+      $ele: window,
+      events: 'resize',
+      method: 'onResize',
+    });
+  }
+
   onAnyParentScroll() {
+    this.popper.updatePosition();
+  }
+
+  onResize() {
     this.popper.updatePosition();
   }
 
@@ -364,6 +388,7 @@ export class PopoverComponent {
     this.beforeHide();
     this.popper.hide();
     this.removeScrollEventListeners();
+    this.removeResizeEventListeners();
   }
 
   toggle(show) {
@@ -415,6 +440,7 @@ export class PopoverComponent {
 
     if (!this.disableUpdatePosition) {
       this.addScrollEventListeners();
+      this.addResizeEventListeners();
     }
 
     if (typeof this.afterShowCallback === 'function') {
