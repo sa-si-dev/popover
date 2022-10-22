@@ -18,6 +18,7 @@
   width: $arrowSize;
   height: $arrowSize;
   overflow: hidden;
+  pointer-events: none;
 
   &::before {
     content: '';
