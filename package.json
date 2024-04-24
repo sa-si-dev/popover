@@ -22,7 +22,7 @@
     "docsify-cli": "^4.4.4",
     "filemanager-webpack-plugin": "^7.0.0",
     "mini-css-extract-plugin": "^2.6.1",
-    "popper-plugin": "^1.0.4",
+    "popper-plugin": "^1.0.5",
     "sass": "^1.53.0",
     "sass-loader": "^13.0.2",
     "webpack": "^5.73.0",
